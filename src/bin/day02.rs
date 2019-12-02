@@ -36,8 +36,8 @@ fn intcode(mut ops: Vec<i32>) -> Option<Vec<i32>> {
 }
 
 fn find_noun_verb(ops: Vec<i32>, output: i32) -> Option<(i32, i32)> {
-    for noun in 0..99 {
-        for verb in 0..99 {
+    for noun in 0..=99 {
+        for verb in 0..=99 {
             let mut v = ops.clone();
             v[1] = noun;
             v[2] = verb;
