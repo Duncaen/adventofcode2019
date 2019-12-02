@@ -35,6 +35,22 @@ fn intcode(mut ops: Vec<i32>) -> Option<Vec<i32>> {
     Some(ops)
 }
 
+fn find_noun_verb(ops: Vec<i32>, output: i32) -> Option<(i32, i32)> {
+    for noun in 0..99 {
+        for verb in 0..99 {
+            let mut v = ops.clone();
+            v[1] = noun;
+            v[2] = verb;
+            if let Some(out) = intcode(v) {
+                if *out.get(0)? == output {
+                    return Some((noun, verb));
+                }
+            }
+        }
+    }
+    None
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let f = File::open("day02")?;
     let f = BufReader::new(f);
@@ -47,8 +63,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // part 1
     v[1] = 12;
     v[2] = 2;
-    if let Some(out) = intcode(v) {
+    if let Some(out) = intcode(v.clone()) {
         println!("part1: {}", out[0])
+    }
+    if let Some((noun, verb)) = find_noun_verb(v.clone(), 19690720) {
+        println!("part2: {}", 100 * noun + verb)
     }
     Ok(())
 }
